@@ -1,0 +1,31 @@
+{
+	"id": "adder-1000series",
+	"name": "adder-1000series",
+	"shortname": "Adder1000R",
+	"description": "adder-1000series",
+	"version": "1.0.0",
+	"license": "MIT",
+	"repository": "git+https://github.com/bitfocus/companion-module-adder-1000series.git",
+	"bugs": "https://github.com/bitfocus/companion-module-adder-1000series/issues",
+	"maintainers": [
+		{
+			"name": "Leopold Strobl",
+			"email": "leopold.strobl@vt-media.de"
+		}
+	],
+	"legacyIds": [],
+	"runtime": {
+		"type": "node18",
+		"api": "nodejs-ipc",
+		"apiVersion": "0.0.0",
+		"entrypoint": "../index.js"
+	},
+	"manufacturer": "Adder",
+	"products": [
+		"Infinity 1000R Series"
+	],
+	"keywords": [
+		"IP KVM",
+		"KVM"
+	]
+}
