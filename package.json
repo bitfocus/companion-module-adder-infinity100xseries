@@ -8,7 +8,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/bitfocus/companion-module-adder-1000series.git"
+		"url": "git+https://github.com/bitfocus/companion-module-adder-infinity100xseries.git"
 	},
 	"license": "MIT",
 	"dependencies": {
