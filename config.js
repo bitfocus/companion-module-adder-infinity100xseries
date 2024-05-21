@@ -37,5 +37,12 @@ export const configFields = [
 			{id: '2020', label: '2020 Series'},
 		]
 	},
-	
+	{
+		type: 'checkbox',
+		id: 'verbose',
+		label: 'Verbose Logs',
+		width: 6,
+		default: false,
+		tooltip: 'Verbose logs written to console',
+	},
 ]

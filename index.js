@@ -48,10 +48,12 @@ class AdderInstance extends InstanceBase {
 					setTransmitterIP:{
 						name: 'Set TransmitterIP',
 						options: [FIELDS.TransmitterIP1, FIELDS.TransmitterIP2, FIELDS.TransmitterVideoNumber, FIELDS.TransmitterVideo1Number],
-						callback:  (action) => {
+						callback:  async (action) => {
+							const ip1 = await this.parseVariablesInString(action.options.TransmitterIP1)
+							const ip2 = await this.parseVariablesInString(action.options.TransmitterIP2)
 							try{
-								this.log('info', `Transmitter IPs: `+action.options.TransmitterIP1 + ` `+ action.options.TransmitterIP2 + ` `+ action.options.TransmitterVideoNumber + ` `+ action.options.TransmitterVideo1Number)
-								this.funcSetTransmitterIP(action.options.TransmitterIP1, action.options.TransmitterIP2, action.options.TransmitterVideoNumber, action.options.TransmitterVideo1Number);
+								this.log('info', `Transmitter IPs: `+ ip1 + ` `+ ip2 + ` `+ action.options.TransmitterVideoNumber + ` `+ action.options.TransmitterVideo1Number)
+								this.funcSetTransmitterIP(ip1, ip2, action.options.TransmitterVideoNumber, action.options.TransmitterVideo1Number);
 								this.log('info', `Set Transmitter IP sucessfull`)
 							}catch (e){
 								this.log('error', `Set Transmitter IP failed (${e.message})`)
@@ -70,10 +72,12 @@ class AdderInstance extends InstanceBase {
 					setTransmitterIP:{
 						name: 'Set TransmitterIP',
 						options: [FIELDS.TransmitterIP1, FIELDS.TransmitterIP2, FIELDS.TransmitterVideoNumber],
-						callback:  (action) => {
+						callback:  async (action) => {
+							const ip1 = await this.parseVariablesInString(action.options.TransmitterIP1)
+							const ip2 = await this.parseVariablesInString(action.options.TransmitterIP2)
 							try{
-								this.log('info', `Transmitter IPs: `+action.options.TransmitterIP1 + ` `+ action.options.TransmitterIP2 + ` `+ action.options.TransmitterVideoNumber)
-								this.funcSetTransmitterIP(action.options.TransmitterIP1, action.options.TransmitterIP2, action.options.TransmitterVideoNumber);
+								this.log('info', `Transmitter IPs: `+ ip1 + ` `+ ip2 + ` `+ action.options.TransmitterVideoNumber)
+								this.funcSetTransmitterIP(ip1, ip2, action.options.TransmitterVideoNumber);
 								this.log('info', `Set Transmitter IP sucessfull`)
 							}catch (e){
 								this.log('error', `Set Transmitter IP failed (${e.message})`)
@@ -109,10 +113,16 @@ class AdderInstance extends InstanceBase {
 		try { 
 			const response = await got.post("http://"+this.config.ReceiverIP+"/cgi-bin/rxunitconfig", {method: 'POST', headers: {'content-type': 'application/x-www-form-urlencoded'},	body: textbody});
 			this.updateStatus(InstanceStatus.Ok)
+			if (this.config.verbose) {
+				console.log(response)
+			}
 			return true
 		} catch (e) {
 			this.log('error', `Set Transmitter IP failed (${e.message})`)
-			this.updateStatus(InstanceStatus.UnknownError, e.code)
+			this.updateStatus(InstanceStatus.ConnectionFailure, e.code)
+			if (this.config.verbose) {
+				console.log(e)
+			}
 			return undefined
 		}
 		

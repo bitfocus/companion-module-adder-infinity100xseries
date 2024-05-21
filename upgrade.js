@@ -8,7 +8,11 @@ export const upgradeScripts = [
 		if (props.config !== null) {
 			let config = props.config
 			if (config.series === undefined) {
-				config.port = '1000'
+				config.series = '1000'
+				result.updatedConfig = config
+			}
+			if (config.verbose === undefined) {
+				config.verbose = false
 				result.updatedConfig = config
 			}
 		}
