@@ -6,6 +6,10 @@ import { FIELDS } from './fields.js'
 
 
 class AdderInstance extends InstanceBase {
+	constructor(internal) {
+		super(internal)
+	}
+
 	configUpdated(config) {
 		this.config = config
 
@@ -86,7 +90,7 @@ class AdderInstance extends InstanceBase {
 		this.setActionDefinitions(actionDefs)
 	}
 
-	funcSetTransmitterIP(TXIP1, TXIP2, VideoNum, Video1Num){
+	async funcSetTransmitterIP(TXIP1, TXIP2, VideoNum, Video1Num){
 		let textbody
 		if (this.config.series === '2020') {
 			textbody = "server_unit_ip1="+TXIP1+"&server_unit_ip2="+TXIP2+""
@@ -103,11 +107,13 @@ class AdderInstance extends InstanceBase {
 			+"&server_serial_ip1="+TXIP1+"&server_serial_ip2="+TXIP2+""; 
 		}
 		try { 
-			got.post("http://"+this.config.ReceiverIP+"/cgi-bin/rxunitconfig", {method: 'POST', headers: {'content-type': 'application/x-www-form-urlencoded'},	body: textbody});
+			const response = await got.post("http://"+this.config.ReceiverIP+"/cgi-bin/rxunitconfig", {method: 'POST', headers: {'content-type': 'application/x-www-form-urlencoded'},	body: textbody});
 			this.updateStatus(InstanceStatus.Ok)
+			return true
 		} catch (e) {
 			this.log('error', `Set Transmitter IP failed (${e.message})`)
 			this.updateStatus(InstanceStatus.UnknownError, e.code)
+			return undefined
 		}
 		
 		
