@@ -5,19 +5,14 @@ export const upgradeScripts = [
 			updatedActions: [],
 			updatedFeedbacks: [],
 		}
-		if (props.config !== null) {
-			let config = props.config
-			if (config.series === undefined || config.series === null) {
-				config.series = '1000'
-				result.updatedConfig = config
-			}
-			if (config.verbose === undefined || config.verbose === null) {
-				config.verbose = false
-				result.updatedConfig = config
+		if (props.config) {
+			if (props.config.series == undefined || props.config.series == null) {
+				props.config.series = '1000'
+				props.config.verbose = false
+				result.updatedConfig = props.config
+				console.log('Config updated')
 			}	
 		}
 		return result
 	},
-
-
 ]

@@ -96,19 +96,23 @@ class AdderInstance extends InstanceBase {
 
 	async funcSetTransmitterIP(TXIP1, TXIP2, VideoNum, Video1Num){
 		let textbody
-		if (this.config.series === '2020') {
-			textbody = "server_unit_ip1="+TXIP1+"&server_unit_ip2="+TXIP2+""
-			+"&server_video_ip1="+TXIP1+"&server_video_ip2="+TXIP2+"&server_video_num="+VideoNum+""
-			+"&server_video1_ip1="+TXIP1+"&server_video1_ip2="+TXIP2+"&server_video1_num="+Video1Num+""
-			+"&server_audio_ip1="+TXIP1+"&server_audio_ip2="+TXIP2+""
-			+"&server_usb_ip1="+TXIP1+"&server_usb_ip2="+TXIP2+""
-			+"&server_serial_ip1="+TXIP1+"&server_serial_ip2="+TXIP2+""; 
-		} else  {
-			textbody = "server_unit_ip1="+TXIP1+"&server_unit_ip2="+TXIP2+""
-			+"&server_video_ip1="+TXIP1+"&server_video_ip2="+TXIP2+"&server_video_num="+VideoNum+""
-			+"&server_audio_ip1="+TXIP1+"&server_audio_ip2="+TXIP2+""
-			+"&server_usb_ip1="+TXIP1+"&server_usb_ip2="+TXIP2+""
-			+"&server_serial_ip1="+TXIP1+"&server_serial_ip2="+TXIP2+""; 
+		switch (this.config.series){
+			case '2020':
+				textbody = "server_unit_ip1="+TXIP1+"&server_unit_ip2="+TXIP2+""
+				+"&server_video_ip1="+TXIP1+"&server_video_ip2="+TXIP2+"&server_video_num="+VideoNum+""
+				+"&server_video1_ip1="+TXIP1+"&server_video1_ip2="+TXIP2+"&server_video1_num="+Video1Num+""
+				+"&server_audio_ip1="+TXIP1+"&server_audio_ip2="+TXIP2+""
+				+"&server_usb_ip1="+TXIP1+"&server_usb_ip2="+TXIP2+""
+				+"&server_serial_ip1="+TXIP1+"&server_serial_ip2="+TXIP2+"";
+				break
+			case '1000':
+			default:
+				textbody = "server_unit_ip1="+TXIP1+"&server_unit_ip2="+TXIP2+""
+				+"&server_video_ip1="+TXIP1+"&server_video_ip2="+TXIP2+"&server_video_num="+VideoNum+""
+				+"&server_audio_ip1="+TXIP1+"&server_audio_ip2="+TXIP2+""
+				+"&server_usb_ip1="+TXIP1+"&server_usb_ip2="+TXIP2+""
+				+"&server_serial_ip1="+TXIP1+"&server_serial_ip2="+TXIP2+"";
+				break
 		}
 		try { 
 			const response = await got.post("http://"+this.config.ReceiverIP+"/cgi-bin/rxunitconfig", {method: 'POST', headers: {'content-type': 'application/x-www-form-urlencoded'},	body: textbody});
