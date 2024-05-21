@@ -36,37 +36,80 @@ class AdderInstance extends InstanceBase {
 	}
 
 	initActions() {
-	
-
-		this.setActionDefinitions({
+		let actionDefs = {}
+		switch (this.config.series){
+			case '2020':
+				actionDefs = {
 			
-			setTransmitterIP:{
-				name: 'Set TransmitterIP',
-				options: [FIELDS.TransmitterIP1, FIELDS.TransmitterIP2, FIELDS.TransmitterVideoNumber],
-				callback:  (action) => {
-					try{
-						this.log('info', `Transmitter IPs: `+action.options.TransmitterIP1 + ` `+ action.options.TransmitterIP2 + ` `+ action.options.TransmitterVideoNumber)
-						this.funcSetTransmitterIP(action.options.TransmitterIP1, action.options.TransmitterIP2, action.options.TransmitterVideoNumber);
-						this.log('info', `Set Transmitter IP sucessfull`)
-					}catch (e){
-						this.log('error', `Set Transmitter IP failed (${e.message})`)
-						this.updateStatus(InstanceStatus.UnknownError, e.code)
-					}
-
+					setTransmitterIP:{
+						name: 'Set TransmitterIP',
+						options: [FIELDS.TransmitterIP1, FIELDS.TransmitterIP2, FIELDS.TransmitterVideoNumber, FIELDS.TransmitterVideo1Number],
+						callback:  (action) => {
+							try{
+								this.log('info', `Transmitter IPs: `+action.options.TransmitterIP1 + ` `+ action.options.TransmitterIP2 + ` `+ action.options.TransmitterVideoNumber + ` `+ action.options.TransmitterVideo1Number)
+								this.funcSetTransmitterIP(action.options.TransmitterIP1, action.options.TransmitterIP2, action.options.TransmitterVideoNumber, action.options.TransmitterVideo1Number);
+								this.log('info', `Set Transmitter IP sucessfull`)
+							}catch (e){
+								this.log('error', `Set Transmitter IP failed (${e.message})`)
+								this.updateStatus(InstanceStatus.UnknownError, e.code)
+							}
+		
+						}
+					},
+					
 				}
-			},
+				break
+			case '1000':
+			default:
+				actionDefs = {
 			
-		})
+					setTransmitterIP:{
+						name: 'Set TransmitterIP',
+						options: [FIELDS.TransmitterIP1, FIELDS.TransmitterIP2, FIELDS.TransmitterVideoNumber],
+						callback:  (action) => {
+							try{
+								this.log('info', `Transmitter IPs: `+action.options.TransmitterIP1 + ` `+ action.options.TransmitterIP2 + ` `+ action.options.TransmitterVideoNumber)
+								this.funcSetTransmitterIP(action.options.TransmitterIP1, action.options.TransmitterIP2, action.options.TransmitterVideoNumber);
+								this.log('info', `Set Transmitter IP sucessfull`)
+							}catch (e){
+								this.log('error', `Set Transmitter IP failed (${e.message})`)
+								this.updateStatus(InstanceStatus.UnknownError, e.code)
+							}
+		
+						}
+					},
+					
+				}
+				break
+		}
+
+		this.setActionDefinitions(actionDefs)
 	}
 
-	funcSetTransmitterIP(TXIP1, TXIP2, VideoNum){
-		var textbody = "server_unit_ip1="+TXIP1+"&server_unit_ip2="+TXIP2+""
-		+"&server_video_ip1="+TXIP1+"&server_video_ip2="+TXIP2+"&server_video_num="+VideoNum+""
-		+"&server_audio_ip1="+TXIP1+"&server_audio_ip2="+TXIP2+""
-		+"&server_usb_ip1="+TXIP1+"&server_usb_ip2="+TXIP2+""
-		+"&server_serial_ip1="+TXIP1+"&server_serial_ip2="+TXIP2+""; 
+	funcSetTransmitterIP(TXIP1, TXIP2, VideoNum, Video1Num){
+		let textbody
+		if (this.config.series === '2020') {
+			textbody = "server_unit_ip1="+TXIP1+"&server_unit_ip2="+TXIP2+""
+			+"&server_video_ip1="+TXIP1+"&server_video_ip2="+TXIP2+"&server_video_num="+VideoNum+""
+			+"&server_video1_ip1="+TXIP1+"&server_video1_ip2="+TXIP2+"&server_video1_num="+Video1Num+""
+			+"&server_audio_ip1="+TXIP1+"&server_audio_ip2="+TXIP2+""
+			+"&server_usb_ip1="+TXIP1+"&server_usb_ip2="+TXIP2+""
+			+"&server_serial_ip1="+TXIP1+"&server_serial_ip2="+TXIP2+""; 
+		} else  {
+			textbody = "server_unit_ip1="+TXIP1+"&server_unit_ip2="+TXIP2+""
+			+"&server_video_ip1="+TXIP1+"&server_video_ip2="+TXIP2+"&server_video_num="+VideoNum+""
+			+"&server_audio_ip1="+TXIP1+"&server_audio_ip2="+TXIP2+""
+			+"&server_usb_ip1="+TXIP1+"&server_usb_ip2="+TXIP2+""
+			+"&server_serial_ip1="+TXIP1+"&server_serial_ip2="+TXIP2+""; 
+		}
+		try { 
+			got.post("http://"+this.config.ReceiverIP+"/cgi-bin/rxunitconfig", {method: 'POST', headers: {'content-type': 'application/x-www-form-urlencoded'},	body: textbody});
+			this.updateStatus(InstanceStatus.Ok)
+		} catch (e) {
+			this.log('error', `Set Transmitter IP failed (${e.message})`)
+			this.updateStatus(InstanceStatus.UnknownError, e.code)
+		}
 		
-		got.post("http://"+this.config.ReceiverIP+"/cgi-bin/rxunitconfig", {method: 'POST', headers: {'content-type': 'application/x-www-form-urlencoded'},	body: textbody});
 		
 		
 	}

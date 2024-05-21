@@ -20,8 +20,23 @@ export const FIELDS = {
 		id: 'TransmitterVideoNumber',
 		default: 0,
 		useVariables: false,
+		min: 0,
+		max: 16,
+		step: 1,
+		range: true,
 	},
-	
+	TransmitterVideo1Number: {
+		type: 'number',
+		label: 'Transmitter Video 1 Number',
+		id: 'TransmitterVideo1Number',
+		default: 1,
+		useVariables: false,
+		min: 0,
+		max: 16,
+		step: 1,
+		range: true,
+	},
 
 	
 }
+yarn

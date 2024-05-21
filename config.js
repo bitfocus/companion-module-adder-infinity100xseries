@@ -26,6 +26,16 @@ export const configFields = [
 		width: 12,
 		default: '',
 	},
-	
+	{
+		type: 'dropdown',
+		id: 'series',
+		label: 'Adder Reciever Series',
+		width: 12,
+		default: '1000',
+		choices: [
+			{id: '1000', label: '1000 Series'},
+			{id: '2020', label: '2020 Series'},
+		]
+	},
 	
 ]
