@@ -7,14 +7,14 @@ export const upgradeScripts = [
 		}
 		if (props.config !== null) {
 			let config = props.config
-			if (config.series === undefined) {
+			if (config.series === undefined || config.series === null) {
 				config.series = '1000'
 				result.updatedConfig = config
 			}
-			if (config.verbose === undefined) {
+			if (config.verbose === undefined || config.verbose === null) {
 				config.verbose = false
 				result.updatedConfig = config
-			}
+			}	
 		}
 		return result
 	},

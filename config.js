@@ -1,3 +1,5 @@
+const { Regex } = require('@companion-module/base')
+
 export const configFields = [
 	{
 		type: 'static-text',
@@ -25,12 +27,13 @@ export const configFields = [
 		label: 'Adder Receiver IP or hostname',
 		width: 12,
 		default: '',
+		regex: Regex.HOSTNAME,
 	},
 	{
 		type: 'dropdown',
 		id: 'series',
 		label: 'Adder Reciever Series',
-		width: 12,
+		width: 6,
 		default: '1000',
 		choices: [
 			{id: '1000', label: '1000 Series'},
