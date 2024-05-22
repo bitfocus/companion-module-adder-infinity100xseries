@@ -7,7 +7,7 @@ export const configFields = [
 		width: 12,
 		label: 'Information',
 		value:
-			"This module controls Adder Infinity 100x Series receivers. The tested firmware is 5.1",
+			"This module controls Adder Infinity 100x Series and 2020 Series receivers. The tested firmware is 5.1",
 	},
 	
 	{
