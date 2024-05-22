@@ -6,6 +6,10 @@ import { FIELDS } from './fields.js'
 
 
 class AdderInstance extends InstanceBase {
+	constructor(internal) {
+		super(internal)
+	}
+
 	configUpdated(config) {
 		this.config = config
 
@@ -36,37 +40,96 @@ class AdderInstance extends InstanceBase {
 	}
 
 	initActions() {
-	
-
-		this.setActionDefinitions({
+		let actionDefs = {}
+		switch (this.config.series){
+			case '2020':
+				actionDefs = {
 			
-			setTransmitterIP:{
-				name: 'Set TransmitterIP',
-				options: [FIELDS.TransmitterIP1, FIELDS.TransmitterIP2, FIELDS.TransmitterVideoNumber],
-				callback:  (action) => {
-					try{
-						this.log('info', `Transmitter IPs: `+action.options.TransmitterIP1 + ` `+ action.options.TransmitterIP2 + ` `+ action.options.TransmitterVideoNumber)
-						this.funcSetTransmitterIP(action.options.TransmitterIP1, action.options.TransmitterIP2, action.options.TransmitterVideoNumber);
-						this.log('info', `Set Transmitter IP sucessfull`)
-					}catch (e){
-						this.log('error', `Set Transmitter IP failed (${e.message})`)
-						this.updateStatus(InstanceStatus.UnknownError, e.code)
-					}
-
+					setTransmitterIP:{
+						name: 'Set TransmitterIP',
+						options: [FIELDS.TransmitterIP1, FIELDS.TransmitterIP2, FIELDS.TransmitterVideoNumber, FIELDS.TransmitterVideo1Number],
+						callback:  async (action) => {
+							const ip1 = await this.parseVariablesInString(action.options.TransmitterIP1)
+							const ip2 = await this.parseVariablesInString(action.options.TransmitterIP2)
+							try{
+								this.log('info', `Transmitter IPs: `+ ip1 + ` `+ ip2 + ` `+ action.options.TransmitterVideoNumber + ` `+ action.options.TransmitterVideo1Number)
+								this.funcSetTransmitterIP(ip1, ip2, action.options.TransmitterVideoNumber, action.options.TransmitterVideo1Number);
+								this.log('info', `Set Transmitter IP sucessfull`)
+							}catch (e){
+								this.log('error', `Set Transmitter IP failed (${e.message})`)
+								this.updateStatus(InstanceStatus.UnknownError, e.code)
+							}
+		
+						}
+					},
+					
 				}
-			},
+				break
+			case '1000':
+			default:
+				actionDefs = {
 			
-		})
+					setTransmitterIP:{
+						name: 'Set TransmitterIP',
+						options: [FIELDS.TransmitterIP1, FIELDS.TransmitterIP2, FIELDS.TransmitterVideoNumber],
+						callback:  async (action) => {
+							const ip1 = await this.parseVariablesInString(action.options.TransmitterIP1)
+							const ip2 = await this.parseVariablesInString(action.options.TransmitterIP2)
+							try{
+								this.log('info', `Transmitter IPs: `+ ip1 + ` `+ ip2 + ` `+ action.options.TransmitterVideoNumber)
+								this.funcSetTransmitterIP(ip1, ip2, action.options.TransmitterVideoNumber);
+								this.log('info', `Set Transmitter IP sucessfull`)
+							}catch (e){
+								this.log('error', `Set Transmitter IP failed (${e.message})`)
+								this.updateStatus(InstanceStatus.UnknownError, e.code)
+							}
+		
+						}
+					},
+					
+				}
+				break
+		}
+
+		this.setActionDefinitions(actionDefs)
 	}
 
-	funcSetTransmitterIP(TXIP1, TXIP2, VideoNum){
-		var textbody = "server_unit_ip1="+TXIP1+"&server_unit_ip2="+TXIP2+""
-		+"&server_video_ip1="+TXIP1+"&server_video_ip2="+TXIP2+"&server_video_num="+VideoNum+""
-		+"&server_audio_ip1="+TXIP1+"&server_audio_ip2="+TXIP2+""
-		+"&server_usb_ip1="+TXIP1+"&server_usb_ip2="+TXIP2+""
-		+"&server_serial_ip1="+TXIP1+"&server_serial_ip2="+TXIP2+""; 
+	async funcSetTransmitterIP(TXIP1, TXIP2, VideoNum, Video1Num){
+		let textbody
+		switch (this.config.series){
+			case '2020':
+				textbody = "server_unit_ip1="+TXIP1+"&server_unit_ip2="+TXIP2+""
+				+"&server_video_ip1="+TXIP1+"&server_video_ip2="+TXIP2+"&server_video_num="+VideoNum+""
+				+"&server_video1_ip1="+TXIP1+"&server_video1_ip2="+TXIP2+"&server_video1_num="+Video1Num+""
+				+"&server_audio_ip1="+TXIP1+"&server_audio_ip2="+TXIP2+""
+				+"&server_usb_ip1="+TXIP1+"&server_usb_ip2="+TXIP2+""
+				+"&server_serial_ip1="+TXIP1+"&server_serial_ip2="+TXIP2+"";
+				break
+			case '1000':
+			default:
+				textbody = "server_unit_ip1="+TXIP1+"&server_unit_ip2="+TXIP2+""
+				+"&server_video_ip1="+TXIP1+"&server_video_ip2="+TXIP2+"&server_video_num="+VideoNum+""
+				+"&server_audio_ip1="+TXIP1+"&server_audio_ip2="+TXIP2+""
+				+"&server_usb_ip1="+TXIP1+"&server_usb_ip2="+TXIP2+""
+				+"&server_serial_ip1="+TXIP1+"&server_serial_ip2="+TXIP2+"";
+				break
+		}
+		try { 
+			const response = await got.post("http://"+this.config.ReceiverIP+"/cgi-bin/rxunitconfig", {method: 'POST', headers: {'content-type': 'application/x-www-form-urlencoded'},	body: textbody});
+			this.updateStatus(InstanceStatus.Ok)
+			if (this.config.verbose) {
+				console.log(response)
+			}
+			return true
+		} catch (e) {
+			this.log('error', `Set Transmitter IP failed (${e.message})`)
+			this.updateStatus(InstanceStatus.ConnectionFailure, e.code)
+			if (this.config.verbose) {
+				console.log(e)
+			}
+			return undefined
+		}
 		
-		got.post("http://"+this.config.ReceiverIP+"/cgi-bin/rxunitconfig", {method: 'POST', headers: {'content-type': 'application/x-www-form-urlencoded'},	body: textbody});
 		
 		
 	}

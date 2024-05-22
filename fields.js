@@ -1,3 +1,5 @@
+const { Regex } = require('@companion-module/base')
+
 export const FIELDS = {
 
 	TransmitterIP1: {
@@ -6,6 +8,7 @@ export const FIELDS = {
 		id: 'TransmitterIP1',
 		default: '192.168.235.10',
 		useVariables: true,
+		regex: Regex.SOMETHING,
 	},
 	TransmitterIP2: {
 		type: 'textinput',
@@ -13,6 +16,7 @@ export const FIELDS = {
 		id: 'TransmitterIP2',
 		default: '0.0.0.0',
 		useVariables: true,
+		regex: Regex.SOMETHING,
 	},
 	TransmitterVideoNumber: {
 		type: 'number',
@@ -20,8 +24,20 @@ export const FIELDS = {
 		id: 'TransmitterVideoNumber',
 		default: 0,
 		useVariables: false,
+		min: 0,
+		max: 4,
+		step: 1,
+		range: true,
 	},
-	
-
-	
+	TransmitterVideo1Number: {
+		type: 'number',
+		label: 'Transmitter Video 1 Number',
+		id: 'TransmitterVideo1Number',
+		default: 1,
+		useVariables: false,
+		min: 0,
+		max: 4,
+		step: 1,
+		range: true,
+	},
 }

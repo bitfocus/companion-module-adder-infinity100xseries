@@ -1,3 +1,5 @@
+const { Regex } = require('@companion-module/base')
+
 export const configFields = [
 	{
 		type: 'static-text',
@@ -5,7 +7,7 @@ export const configFields = [
 		width: 12,
 		label: 'Information',
 		value:
-			"This module controls Adder Infinity 100x Series receivers. The tested firmware is 5.1",
+			"This module controls Adder Infinity 100x Series and 2020 Series receivers. The tested firmware is 5.1",
 	},
 	
 	{
@@ -25,7 +27,25 @@ export const configFields = [
 		label: 'Adder Receiver IP or hostname',
 		width: 12,
 		default: '',
+		regex: Regex.HOSTNAME,
 	},
-	
-	
+	{
+		type: 'dropdown',
+		id: 'series',
+		label: 'Adder Reciever Series',
+		width: 6,
+		default: '1000',
+		choices: [
+			{id: '1000', label: '1000 Series'},
+			{id: '2020', label: '2020 Series'},
+		]
+	},
+	{
+		type: 'checkbox',
+		id: 'verbose',
+		label: 'Verbose Logs',
+		width: 6,
+		default: false,
+		tooltip: 'Verbose logs written to console',
+	},
 ]
