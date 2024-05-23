@@ -13,6 +13,8 @@ class AdderInstance extends InstanceBase {
 	configUpdated(config) {
 		this.config = config
 
+		this.updateStatus(InstanceStatus.Ok)
+
 		this.initActions()
 		this.initFeedbacks()
 	}
