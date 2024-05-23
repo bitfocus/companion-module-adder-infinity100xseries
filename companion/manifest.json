@@ -3,7 +3,7 @@
 	"name": "adder-1000series",
 	"shortname": "Infinity 1000R",
 	"description": "adder-1000series",
-	"version": "1.0.0",
+	"version": "0.0.0",
 	"license": "MIT",
 	"repository": "git+https://github.com/bitfocus/companion-module-adder-infinity100xseries.git",
 	"bugs": "https://github.com/bitfocus/companion-module-adder-infinity100xseries/issues",
