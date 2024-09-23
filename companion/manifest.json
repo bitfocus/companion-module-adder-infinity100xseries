@@ -21,12 +21,6 @@
 		"entrypoint": "../index.js"
 	},
 	"manufacturer": "Adder",
-	"products": [
-		"Infinity 1000R Series",
-		"Infinity 2020R Series"
-	],
-	"keywords": [
-		"IP KVM",
-		"KVM"
-	]
+	"products": ["Infinity 1000R Series", "Infinity 2020R Series"],
+	"keywords": ["IP KVM", "KVM"]
 }

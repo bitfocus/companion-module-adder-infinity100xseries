@@ -11,7 +11,7 @@ export const upgradeScripts = [
 				props.config.verbose = false
 				result.updatedConfig = props.config
 				console.log('Config updated')
-			}	
+			}
 		}
 		return result
 	},
