@@ -1,7 +1,6 @@
 const { Regex } = require('@companion-module/base')
 
 export const FIELDS = {
-
 	TransmitterIP1: {
 		type: 'textinput',
 		label: 'Transmitter IP 1',

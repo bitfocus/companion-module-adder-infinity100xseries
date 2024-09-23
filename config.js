@@ -6,10 +6,9 @@ export const configFields = [
 		id: 'info',
 		width: 12,
 		label: 'Information',
-		value:
-			"This module controls Adder Infinity 100x Series and 2020 Series receivers. The tested firmware is 5.1",
+		value: 'This module controls Adder Infinity 100x Series and 2020 Series receivers. The tested firmware is 5.1',
 	},
-	
+
 	{
 		type: 'static-text',
 		id: 'ReceiverIPInfo',
@@ -36,9 +35,9 @@ export const configFields = [
 		width: 6,
 		default: '1000',
 		choices: [
-			{id: '1000', label: '1000 Series'},
-			{id: '2020', label: '2020 Series'},
-		]
+			{ id: '1000', label: '1000 Series' },
+			{ id: '2020', label: '2020 Series' },
+		],
 	},
 	{
 		type: 'checkbox',
