@@ -36,11 +36,11 @@ class AdderInstance extends InstanceBase {
 
 	// When module gets deleted
 	async destroy() {
-		// Stop any running feedback timers
 		this.queue.clear()
-		for (const timer of Object.values(this.feedbackTimers)) {
+		// Stop any running feedback timers
+		/* for (const timer of Object.values(this.feedbackTimers)) {
 			clearInterval(timer)
-		}
+		} */
 	}
 
 	initActions() {
@@ -59,29 +59,24 @@ class AdderInstance extends InstanceBase {
 						callback: async (action) => {
 							const ip1 = await this.parseVariablesInString(action.options.TransmitterIP1)
 							const ip2 = await this.parseVariablesInString(action.options.TransmitterIP2)
-							try {
-								this.log(
-									'info',
-									`Transmitter IPs: ` +
-										ip1 +
-										` ` +
-										ip2 +
-										` ` +
-										action.options.TransmitterVideoNumber +
-										` ` +
-										action.options.TransmitterVideo1Number,
-								)
-								this.funcSetTransmitterIP(
-									ip1,
-									ip2,
-									action.options.TransmitterVideoNumber,
+
+							this.log(
+								'info',
+								`Transmitter IPs: ` +
+									ip1 +
+									` ` +
+									ip2 +
+									` ` +
+									action.options.TransmitterVideoNumber +
+									` ` +
 									action.options.TransmitterVideo1Number,
-								)
-								this.log('info', `Set Transmitter IP sucessfull`)
-							} catch (e) {
-								this.log('error', `Set Transmitter IP failed (${e.message})`)
-								this.updateStatus(InstanceStatus.UnknownError, e.code)
-							}
+							)
+							this.funcSetTransmitterIP(
+								ip1,
+								ip2,
+								action.options.TransmitterVideoNumber,
+								action.options.TransmitterVideo1Number,
+							)
 						},
 					},
 				}
@@ -95,14 +90,8 @@ class AdderInstance extends InstanceBase {
 						callback: async (action) => {
 							const ip1 = await this.parseVariablesInString(action.options.TransmitterIP1)
 							const ip2 = await this.parseVariablesInString(action.options.TransmitterIP2)
-							try {
-								this.log('info', `Transmitter IPs: ` + ip1 + ` ` + ip2 + ` ` + action.options.TransmitterVideoNumber)
-								this.funcSetTransmitterIP(ip1, ip2, action.options.TransmitterVideoNumber)
-								this.log('info', `Set Transmitter IP sucessfull`)
-							} catch (e) {
-								this.log('error', `Set Transmitter IP failed (${e.message})`)
-								this.updateStatus(InstanceStatus.UnknownError, e.code)
-							}
+							this.log('info', `Transmitter IPs: ` + ip1 + ` ` + ip2 + ` ` + action.options.TransmitterVideoNumber)
+							this.funcSetTransmitterIP(ip1, ip2, action.options.TransmitterVideoNumber)
 						},
 					},
 				}
@@ -192,13 +181,14 @@ class AdderInstance extends InstanceBase {
 					body: textbody,
 				})
 				this.updateStatus(InstanceStatus.Ok)
+				this.log('info', `Set Transmitter IP sucessfull`)
 				if (this.config.verbose) {
 					console.log(response)
 				}
 				return true
 			} catch (e) {
-				this.log('error', `Set Transmitter IP failed (${e.message})`)
-				this.updateStatus(InstanceStatus.ConnectionFailure, e.code)
+				this.log('error', `Set Transmitter IP failed (${e.message ?? ''})`)
+				this.updateStatus(InstanceStatus.ConnectionFailure, e.code ?? '')
 				if (this.config.verbose) {
 					console.log(e)
 				}
