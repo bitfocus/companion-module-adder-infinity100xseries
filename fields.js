@@ -1,4 +1,4 @@
-const { Regex } = require('@companion-module/base')
+import { Regex } from '@companion-module/base'
 
 export const FIELDS = {
 	TransmitterIP1: {
