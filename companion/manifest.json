@@ -13,7 +13,7 @@
 			"email": "leopold.strobl@vt-media.de"
 		}
 	],
-	"legacyIds": [],
+	"legacyIds": ["adder-1000series"],
 	"runtime": {
 		"type": "node18",
 		"api": "nodejs-ipc",
