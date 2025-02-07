@@ -1,8 +1,8 @@
 {
-	"id": "adder-1000series",
-	"name": "adder-1000series",
+	"id": "adder-infinity100xseries",
+	"name": "adder-infinity100xseries",
 	"shortname": "Infinity 1000R",
-	"description": "adder-1000series",
+	"description": "adder-infinity100xseries",
 	"version": "0.0.0",
 	"license": "MIT",
 	"repository": "git+https://github.com/bitfocus/companion-module-adder-infinity100xseries.git",
