@@ -181,7 +181,7 @@ class AdderInstance extends InstanceBase {
 					body: textbody,
 				})
 				this.updateStatus(InstanceStatus.Ok)
-				this.log('info', `Set Transmitter IP sucessfull`)
+				this.log('info', `Set Transmitter IP successful`)
 				if (this.config.verbose) {
 					console.log(response)
 				}
