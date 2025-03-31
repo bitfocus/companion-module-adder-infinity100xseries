@@ -6,7 +6,7 @@ export const FIELDS = {
 		label: 'Transmitter IP 1',
 		id: 'TransmitterIP1',
 		default: '192.168.235.10',
-		useVariables: true,
+		useVariables: { local: true },
 		regex: Regex.SOMETHING,
 	},
 	TransmitterIP2: {
@@ -14,7 +14,7 @@ export const FIELDS = {
 		label: 'Transmitter IP 2',
 		id: 'TransmitterIP2',
 		default: '0.0.0.0',
-		useVariables: true,
+		useVariables: { local: true },
 		regex: Regex.SOMETHING,
 	},
 	TransmitterVideoNumber: {

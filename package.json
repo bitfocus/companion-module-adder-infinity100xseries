@@ -17,19 +17,22 @@
 	},
 	"license": "MIT",
 	"dependencies": {
-		"@companion-module/base": "^1.10.0",
-		"got": "^13.0.0",
-		"p-queue": "^8.0.1"
+		"@companion-module/base": "^1.11.3",
+		"got": "^14.4.7",
+		"p-queue": "^8.1.0"
 	},
 	"devDependencies": {
-		"@companion-module/tools": "^2.0.4",
-		"eslint": "^9.11.0",
-		"husky": "^9.1.6",
-		"lint-staged": "^15.2.10",
-		"prettier": "3.3.3"
+		"@companion-module/tools": "^2.2.2",
+		"eslint": "^9.23.0",
+		"husky": "^9.1.7",
+		"lint-staged": "^15.5.0",
+		"prettier": "3.5.3"
+	},
+	"engines": {
+		"node": "^22.13"
 	},
 	"prettier": "@companion-module/tools/.prettierrc.json",
-	"packageManager": "yarn@4.5.0",
+	"packageManager": "yarn@4.8.0",
 	"lint-staged": {
 		"*.{css,json,md,scss}": [
 			"prettier --write"

@@ -6,3 +6,4 @@ package-lock.json
 /pkg.tgz
 *.zip
 DEBUG-*
+adder-*.tgz

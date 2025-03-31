@@ -8,6 +8,7 @@ import PQueue from 'p-queue'
 class AdderInstance extends InstanceBase {
 	constructor(internal) {
 		super(internal)
+		this.queue = new PQueue({ concurrency: 1, interval: 50, intervalCap: 1 })
 	}
 
 	configUpdated(config) {
@@ -20,11 +21,10 @@ class AdderInstance extends InstanceBase {
 	}
 
 	init(config) {
-		this.queue = new PQueue({ concurrency: 1, interval: 50, intervalCap: 1 })
+		
 		this.config = config
 
 		this.updateStatus(InstanceStatus.Ok)
-
 		this.initActions()
 		this.initFeedbacks()
 	}
@@ -56,9 +56,9 @@ class AdderInstance extends InstanceBase {
 							FIELDS.TransmitterVideoNumber,
 							FIELDS.TransmitterVideo1Number,
 						],
-						callback: async (action) => {
-							const ip1 = await this.parseVariablesInString(action.options.TransmitterIP1)
-							const ip2 = await this.parseVariablesInString(action.options.TransmitterIP2)
+						callback: async (action, context) => {
+							const ip1 = await context.parseVariablesInString(action.options.TransmitterIP1)
+							const ip2 = await context.parseVariablesInString(action.options.TransmitterIP2)
 
 							this.log(
 								'info',
@@ -71,7 +71,7 @@ class AdderInstance extends InstanceBase {
 									` ` +
 									action.options.TransmitterVideo1Number,
 							)
-							this.funcSetTransmitterIP(
+							await this.funcSetTransmitterIP(
 								ip1,
 								ip2,
 								action.options.TransmitterVideoNumber,
@@ -87,11 +87,11 @@ class AdderInstance extends InstanceBase {
 					setTransmitterIP: {
 						name: 'Set TransmitterIP',
 						options: [FIELDS.TransmitterIP1, FIELDS.TransmitterIP2, FIELDS.TransmitterVideoNumber],
-						callback: async (action) => {
-							const ip1 = await this.parseVariablesInString(action.options.TransmitterIP1)
-							const ip2 = await this.parseVariablesInString(action.options.TransmitterIP2)
+						callback: async (action, context) => {
+							const ip1 = await context.parseVariablesInString(action.options.TransmitterIP1)
+							const ip2 = await context.parseVariablesInString(action.options.TransmitterIP2)
 							this.log('info', `Transmitter IPs: ` + ip1 + ` ` + ip2 + ` ` + action.options.TransmitterVideoNumber)
-							this.funcSetTransmitterIP(ip1, ip2, action.options.TransmitterVideoNumber)
+							await this.funcSetTransmitterIP(ip1, ip2, action.options.TransmitterVideoNumber)
 						},
 					},
 				}
@@ -173,7 +173,7 @@ class AdderInstance extends InstanceBase {
 					''
 				break
 		}
-		this.queue.add(async () => {
+		await this.queue.add(async () => {
 			try {
 				const response = await got.post('http://' + this.config.ReceiverIP + '/cgi-bin/rxunitconfig', {
 					method: 'POST',
