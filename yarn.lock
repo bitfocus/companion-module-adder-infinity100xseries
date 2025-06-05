@@ -600,9 +600,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"adder-1000series@workspace:.":
+"adder-infinity100xseries@workspace:.":
   version: 0.0.0-use.local
-  resolution: "adder-1000series@workspace:."
+  resolution: "adder-infinity100xseries@workspace:."
   dependencies:
     "@companion-module/base": "npm:^1.11.3"
     "@companion-module/tools": "npm:^2.2.2"
