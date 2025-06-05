@@ -15,18 +15,12 @@
 	],
 	"legacyIds": ["adder-1000series"],
 	"runtime": {
-		"type": "node18",
+		"type": "node22",
 		"api": "nodejs-ipc",
 		"apiVersion": "0.0.0",
 		"entrypoint": "../index.js"
 	},
 	"manufacturer": "Adder",
-	"products": [
-		"Infinity 1000R Series",
-		"Infinity 2020R Series"
-	],
-	"keywords": [
-		"IP KVM",
-		"KVM"
-	]
+	"products": ["Infinity 1000R Series", "Infinity 2020R Series"],
+	"keywords": ["IP KVM", "KVM"]
 }
