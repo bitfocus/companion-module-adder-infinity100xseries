@@ -14,10 +14,10 @@ export const configFields = [
 		id: 'ReceiverIPInfo',
 		width: 12,
 		value: `
-					<p>
-						Use the receiver IP or hostname without leading protocol (like http://) and '/' at the end.
-					</p>
-					<p>Example: 192.168.235.10</p>
+				
+					Use the receiver IP or hostname without leading protocol (like http://) and '/' at the end.
+					
+					Example: 192.168.235.10
 				`,
 	},
 	{
